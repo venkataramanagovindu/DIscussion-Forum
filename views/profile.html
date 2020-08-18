@@ -1,0 +1,39 @@
+
+<div style="width: 60%; margin: auto;">
+    <!-- <h4 style="text-align: center;">Create User</h4> -->
+    <form id="createUserForm" action="" onsubmit="validateEmailAndAddUser()">
+        <label for="firstName">First Name</label>
+        <input type="text" name="firstName" onblur="validateFName()" minlength="4" maxlength="15" id="firstName" style="width: 100%;padding: 6px;margin: 5px 5px 0 0;" required disabled>
+        <span id="spanFNameError" style="display: none;color: red;font-weight: bold;"></span>
+        
+        <label for="lastName">Last Name</label>
+        <input type="text" name="lastName" onblur="validateLName()" minlength="4" maxlength="15" id="lastName" style="width: 100%;padding: 6px;margin: 5px 5px 0 0;" required disabled>
+        <span id="spanLNameError" style="display: none;color: red;font-weight: bold;"></span>
+        
+        <label for="emailId">Email</label>
+        <input type="email" name="emailId" onblur="validateEmail()" id="emailId" style="width: 100%;padding: 6px;margin: 5px 5px 0 0;" required disabled>
+        <span id="spanEmailError" style="display: none;color: red;font-weight: bold;"></span>
+        <span style="color: red;font-weight: bold;display: none;text-align: end;" id="errEmail">Email already exists</span>
+        
+        <label for="age">Age</label>
+        <input type="number" min="0" max="100" onblur="validateAge()" name="age" id="age" style="width: 100%;padding: 6px;margin: 5px 5px 0 0;" required disabled>
+        <span id="spanAgeError" style="display: none;color: red;font-weight: bold;"></span>
+
+        <label for="role">Role</label>
+        <select id="role" style="width: 100%;padding: 6px;margin: 5px 5px 5px 0;" required disabled>
+            <option value="admin">Admin</option>
+            <option value="user" selected>User</option>
+        </select>
+
+
+
+        <div>
+        <input type="submit" value="Upade Profile" style="width: 20%;" onclick="validateEmailAndAddUser(true)" disabled>
+        </div>
+    </form>
+
+    <div>
+        <input type="button" value="Edit" class="btn" onclick="enableProfileEdit()">
+        <input type="button" id="cancleEditProfile" class="btn" style="display: none;" value="cancel" onclick="disableProfileEdit()">
+    </div>
+</div>

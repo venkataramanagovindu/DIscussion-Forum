@@ -1,0 +1,457 @@
+.text-info{
+  color: #17a2b8!important;
+}
+
+/* *{
+  transition: 0.5s;
+} */
+
+.button.edit:hover {
+  background-color: rgb(255, 255, 255) !important;
+  color: green !important;
+  box-shadow: 0px 0px 2px 2px green;
+}
+
+.button.delete:hover{
+  background-color: rgb(255, 255, 255) !important;
+  color: red !important;
+  box-shadow: 0px 0px 2px 2px red;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: rgba(13, 102, 143, 0.829);
+  }
+  
+  li {
+    /* float: left;
+    transition-duration: 0.5s;
+    position: relative; */
+
+    color: #fff;
+    /* background: darkorange; */
+    display: block;
+    float: left;
+    /* padding: 1rem; */
+    /* position: relative; */
+    text-decoration: none;
+    transition-duration: 0.5s;
+  }
+  
+  li:hover {
+    background: rgb(73, 73, 73);
+    cursor: pointer;
+}
+
+  li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+  }
+/*   
+  li a:hover:not(.active) {
+    background-color: #111;
+  } */
+
+  ul.dropdown {
+    background-color: rgba(13, 102, 143, 0.829);
+    visibility: hidden;
+    opacity: 0;
+    min-width: 5rem;
+    position: absolute;
+    transition: all 0.5s ease;
+    margin-top: 1rem;
+    left: 0;
+    display: none;
+  }
+
+  #profile:hover > ul,
+  ul.dropdown:hover {
+    visibility: visible;
+    opacity: 1;
+    display: block;
+  }
+
+  ul li ul li {
+    clear: both;
+    width: 100%;
+  }
+  
+  .active {
+    background-color: #4CAF50;
+  }
+
+  html *
+{
+   font-size: 1em !important;
+   /* color: #000 !important; */
+  font-family: calibri !important;
+  /* font-family: "Raleway", sans-serif; */
+  box-sizing: border-box;
+}
+
+
+
+
+
+/* table style start */
+
+#articles-table {
+  border-collapse: collapse;
+  /* border-width: 0; */
+}
+
+#articles-table td, #articles-table th{
+  /* border: 1px solid; */
+  padding: 6px 16px;
+}
+
+/* #articles-table tr:nth-child(even) 
+{ 
+  background-color: #413535;
+} */
+
+/* #articles-table tr:hover {
+  background-color: #ddd;
+} */
+
+#articles-table th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: center;
+  background-color: #4c8baf;
+  color: white;
+}
+
+.truncate {
+  /* width: 250px; */
+  /* white-space: nowrap; */
+  /* overflow: hidden; */
+  /* text-overflow: ellipsis; */
+
+  /* white-space: nowrap;  */
+  max-width: 250px; 
+  overflow: hidden;
+  text-overflow: ellipsis; 
+  /* border: 1px solid #000000; */
+}
+
+/* tr:nth-child(even) {
+  background-color: #f2f2f2;
+} */
+
+/* table style end */
+
+/* #toasterSpan{
+  position: relative;
+  /* bottom: 1.4em; */
+  /* display: none; */
+  /* background: rgb(125, 166, 182); */
+  /* text-align: center; */
+ /* display:none;*/
+  /* opacity: 0; */
+  /* -webkit-transition: all 1.25s ease-out;
+  -moz-transition: all 1.25s ease-out; */
+  /* transition: all 1.25s ease-out; */
+/* } */ 
+
+/* content Editable styles start   */
+
+[contenteditable = "true"] {
+  font-size: 26px;
+  padding: .25em 0em;
+  margin: 1em 0;
+  transition: padding .3s ease-in-out;
+}
+
+[contenteditable = "true"]:hover,
+[contenteditable = "true"]:focus {
+  padding: .25em;
+}
+
+[contenteditable = "true"]:hover {
+  background: #fafafa;
+  outline: 2px solid #eee;
+}
+
+[contenteditable = "true"]:focus {
+  background: #efefef;
+  outline: 2px solid blue;
+}
+
+/* content Editable styles start   */
+
+
+/* button styles start */
+.btn {
+  background: #fff;
+  color: darkgreen;
+  border: 1px solid darkgreen;
+  box-shadow: inset 0 0 0 1px;
+  font-size: 1em;
+  /* padding: .75em; */
+  padding: .5em;
+  margin-right: .5em;
+  cursor: pointer;
+}
+
+.btn[disabled] {
+  color: #666;
+  border-color: #ddd;
+  opacity: .5;
+  cursor: not-allowed;
+}
+
+/* .btn:not([disabled]):hover,
+.btn:not([disabled]):focus {
+  outline: 3px solid;
+  outline-offset: 1px;
+} */
+
+.btn:not([disabled]):active {
+  background: darkgreen;
+  color: #fff;
+}
+
+/* button styles end */
+
+.pointer{
+  cursor: pointer;
+}
+
+/* active header color */
+
+ul li a.active {
+  /* background-color: dodgerblue; */
+  background-color: #4CAF50;
+  color: white;
+}
+
+svg:hover{
+  color: green;
+}
+
+
+
+svg#deleteIcon:hover{
+  color: red;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* The Modal (background) */
+.cModal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.cModal-content {
+  position: relative;
+  background-color: #fefefe;
+  margin: auto;
+  padding: 0;
+  border: 1px solid #888;
+  width: 23%;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+  -webkit-animation-name: animatetop;
+  -webkit-animation-duration: 0.4s;
+  animation-name: animatetop;
+  animation-duration: 0.4s
+}
+
+/* Add Animation */
+@-webkit-keyframes animatetop {
+  from {top:-300px; opacity:0} 
+  to {top:0; opacity:1}
+}
+
+@keyframes animatetop {
+  from {top:-300px; opacity:0}
+  to {top:0; opacity:1}
+}
+
+/* The Close Button */
+.cClose {
+  color: white;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.cClose:hover,
+.cClose:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.cModal-header {
+  padding: 2px 16px;
+  background-color: #5aca75;
+  color: white;
+}
+
+.cModal-body {padding: 2px 16px;}
+
+.cModal-footer {
+  padding: 2px 16px;
+  background-color: #FFF;
+  color: white;
+}
+
+/* modal css end */
+
+/* paragraph overflow start */
+
+.contentOverFlow{
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+/* paragraph overflow end */
+
+
+/* submit button start */
+
+input[type=submit] {
+  background-color: #4CAF50;
+  border: none;
+  color: white;
+  padding: 9px 32px;
+  text-decoration: none;
+  margin: 4px 2px;
+  cursor: pointer;
+  float: right;
+}
+
+/* submit button end */
+
+.module {
+  /* width: 250px; */
+  margin: 1em 0 1em 0;
+  overflow: hidden;
+}
+
+
+.line-clamp {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;  
+}
+
+h3 {
+  font-size: 21px !important;
+  display: inline;
+  padding: 10px;
+}
+
+.opacity, .hover-opacity:hover {
+  opacity: 0.60;
+}
+
+.card, .hover-shadow:hover {
+  box-shadow: 0 4px 10px 0 rgba(0,0,0,0.2), 0 4px 20px 0 rgba(0,0,0,0.19);
+}
+
+.padding-large {
+  padding: 12px 24px!important;
+}
+
+.border {
+  border: 1px solid #ccc!important;
+}
+
+/* .w3-btn, .w3-button { */
+.button {
+  border: none;
+  display: inline-block;
+  padding: 8px 16px;
+  vertical-align: middle;
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  background-color: inherit;
+  text-align: center;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.button:hover {
+  color: #000!important;
+  background-color: #ccc!important;
+  padding: 12px 25px!important;
+}
+
+.light-grey, .hover-light-grey:hover, .light-gray, .hover-light-gray:hover {
+  color: #000!important;
+  background-color: #f1f1f1!important;
+}
+
+/* .half, .w3-third, .w3-twothird, .w3-threequarter, .w3-quarter */
+.col {
+  float: left;
+  /* width: 100%; */
+}
+
+/* .w3-col.m8, .w3-twothird  */
+.twothird {
+  width: 66.66666% !important;
+}
+
+.onefourth {
+  width: 25% !important;
+}
+
+/* .w3-col.m4, .w3-third */
+.third {
+  width: 33.33333%;
+}
+
+.right {
+  float: right !important;
+}
+
+.left {
+  float: left !important;
+}
+
+.badge, .tag {
+  background-color: #000;
+  color: #fff;
+  display: inline-block;
+  padding-left: 8px;
+  padding-right: 8px;
+  text-align: center;
+}
+
+input:read-only {
+  background-color: rgba(68, 59, 59, 0.19);
+}

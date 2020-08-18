@@ -1,0 +1,34 @@
+    <div class="container" style="width: 80%;margin: auto;"> 
+
+    <input type="button" class="btn" name="Edit" id="btnEditArticle" value="Edit" style="float: right;display: none;" onclick="editArticle()">
+
+    <div id="divTurnOffComments" style="float: right;margin-right: 5px;display: none;padding: 9px 5px 0 0;">
+        <label for="turnOffComments" class="pointer">Turn Off Comments</label>
+        <input type="checkbox" class="pointer" id="turnOffComments">
+    </div>
+
+    <input type="button" class="btn" name="updateArticle" id="updateArticle" style="display: none;float: right;" value="update Article" onclick="updateArticle()">
+    <span style="color: red;float: right;display: none; padding: 9px 10px 0 0;" class="pointer" id="spanCloseEditArticle" onclick="closeEditArticle()">Calcel</span>
+        <span style="color: green;display: none;font-weight: bold;font-size: large !important;" id="editArticleSpan">You can edit your article now</span>
+
+        <div id="articleParentContainer">
+            <h4 id="viewArticleTitle" style="font-size: large !important; width: 100%;display: flex;margin-top: 2px;" class="p-2"></h4>
+            <div id="viewArticleContent" style="padding-bottom: 15px;"></div>
+        </div>
+
+        <div>
+            <input type="button" style="margin-top: 9px;" name="" id="btnAddComment" class="btn" value="Add Comment" onclick="displayCommentbox()">
+        </div>
+        <div>
+            <textarea onkeyup="disableSubmitBtn(event);" name="comments" style="display: none;width: 100%;margin: 5px;padding: 5px;" id="commentTextArea" cols="30" rows="2"></textarea>
+        </div>
+        <div id="commentActionRow" style="display: none">
+            <input disabled type="button" class="btn" value="Submit" id="commentSubmitBtn" style="margin: 5px" onclick="submitComment()">
+            <input type="button" class="btn" value="Cancel" id="commentCancelBtn" style="margin: 5px" onclick="cancelAddComment()">
+        </div>
+
+        <span  id="commentsSection">
+
+        </span>
+
+    </div>

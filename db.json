@@ -1,0 +1,319 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "firstName": "shivateja",
+      "lastName": "Motam",
+      "emailId": "shivateja.motam@gmail.com",
+      "password": "123",
+      "role": "admin",
+      "age": "20"
+    },
+    {
+      "firstName": "abhinav",
+      "lastName": "r",
+      "emailId": "abhinav@r.com",
+      "password": "123",
+      "age": "15",
+      "role": "user",
+      "id": "aKs53ES"
+    },
+    {
+      "firstName": "some first name",
+      "lastName": "some last name",
+      "emailId": "fname@lname.com",
+      "password": "123",
+      "age": "10",
+      "role": "user",
+      "id": "HO6_K00"
+    },
+    {
+      "firstName": "s f n 2",
+      "lastName": "s l n 2",
+      "emailId": "fn2@ln2.com",
+      "password": "123",
+      "age": "15",
+      "role": "user",
+      "id": "vAItzu3"
+    },
+    {
+      "firstName": "user ",
+      "lastName": "SPA ",
+      "emailId": "user@spa.com",
+      "password": "123",
+      "age": "15",
+      "role": "user",
+      "id": "-WVN8jD"
+    },
+    {
+      "firstName": "USER",
+      "lastName": "role1",
+      "emailId": "user@role1.com",
+      "password": "123",
+      "age": "15",
+      "role": "User",
+      "id": "nH9WDIV"
+    },
+    {
+      "firstName": "Admin",
+      "lastName": "second Name",
+      "emailId": "admin@2.com",
+      "password": "123",
+      "age": "15",
+      "role": "admin",
+      "id": "Z-gbfyH"
+    },
+    {
+      "firstName": "poipoipoìpoipoi",
+      "lastName": "ipioiop",
+      "emailId": "shivateja.motam1@gmail.com",
+      "password": "123",
+      "age": "15",
+      "role": "user",
+      "id": "Aik9cEL"
+    },
+    {
+      "firstName": "final Test",
+      "lastName": "User",
+      "emailId": "finalTest@user.com",
+      "password": "123",
+      "age": "15",
+      "role": "user",
+      "id": "5_HRToD"
+    },
+    {
+      "firstName": "newUser",
+      "lastName": "lName",
+      "emailId": "newuser@name.com",
+      "password": "123",
+      "age": "15",
+      "role": "user",
+      "id": "gI20Bm5"
+    }
+  ],
+  "articles": [
+    {
+      "title": "Google",
+      "content": "Google LLC is an American multinational technology company that specializes in Internet-related services and products, which include online advertising technologies, a search engine, cloud computing, software, and hardware. Wikipedia",
+      "createdUserID": "1",
+      "turnOffComments": false,
+      "createdDate": "2020-08-15T17:49:51.064Z",
+      "id": 4
+    },
+    {
+      "title": "spaceX",
+      "content": "Space Exploration Technologies Corp., trading as SpaceX, is an American aerospace manufacturer and space transportation services company headquartered in Hawthorne, California. It was founded in 2002 by Elon Musk with the goal of reducing space transportation costs to enable the colonization of Mars.",
+      "createdUserID": "1",
+      "turnOffComments": false,
+      "createdDate": "2020-08-15T17:49:51.064Z",
+      "id": 6
+    },
+    {
+      "title": "Microsoft Corporation",
+      "content": "Microsoft Corporation is an American multinational technology company with headquarters in Redmond, Washington. It develops, manufactures, licenses, supports, and sells computer software, consumer electronics, personal computers, and related services.",
+      "createdUserID": "1",
+      "turnOffComments": false,
+      "createdDate": "2020-08-15T17:49:51.064Z",
+      "id": 7
+    },
+    {
+      "title": "Sony",
+      "content": "Sony Corporation is a Japanese multinational conglomerate corporation headquartered in Kōnan, Minato, Tokyo.",
+      "createdUserID": "1",
+      "turnOffComments": false,
+      "createdDate": "2020-08-15T17:49:51.064Z",
+      "id": 8
+    },
+    {
+      "title": "OnePlus Nord",
+      "content": "Quad camera, OIS 48 MP Sony IMX586\n",
+      "createdUserID": "HO6_K00",
+      "turnOffComments": true,
+      "createdDate": "2020-08-15T17:49:51.064Z",
+      "id": 10
+    },
+    {
+      "title": "Hyderabad ",
+      "content": "Hyderabad is the capital of southern India's Telangana state. A major center for the technology industry, it's home to many upscale restaurants and shops. Its historic sites include Golconda Fort, a former diamond-trading center that was once the Qutb Shahi dynastic capital. The Charminar, a 16th-century mosque whose 4 arches support towering minarets, is an old city landmark near the long-standing Laad Bazaar.",
+      "createdUserID": "1",
+      "turnOffComments": false,
+      "createdDate": "2020-08-15T17:49:51.064Z",
+      "id": 11
+    },
+    {
+      "title": "India",
+      "content": "India, officially the Republic of India, is a country in South Asia. It is the second-most populous country, the seventh-largest country by land area, and the most populous democracy in the world.",
+      "createdUserID": "1",
+      "turnOffComments": false,
+      "createdDate": "2020-08-15T17:49:51.064Z",
+      "id": 12
+    },
+    {
+      "title": "some Article",
+      "content": "some content",
+      "createdUserID": "1",
+      "turnOffComments": false,
+      "createdDate": "2020-08-15T17:49:51.064Z",
+      "id": 13
+    },
+    {
+      "title": "Samurai II",
+      "content": "Samurai II: Vengeance is an action video game for iOS, Android, BlackBerry OS, Microsoft Windows and macOS. It was developed by Madfinger Games. It is a sequel to Samurai: Way of the Warrior.",
+      "createdUserID": "HO6_K00",
+      "turnOffComments": false,
+      "createdDate": "2020-08-15T17:49:51.064Z",
+      "id": 14
+    },
+    {
+      "title": "GOT",
+      "content": "Nine noble families wage war against each other in order to gain control over the mythical land of Westeros. Meanwhile, a force is rising after millenniums and threatens the existence of living men.",
+      "createdUserID": "HO6_K00",
+      "turnOffComments": false,
+      "createdDate": "2020-08-15T17:49:51.064Z",
+      "id": 15
+    },
+    {
+      "title": "Lenovo",
+      "content": "Lenovo Group Limited, often shortened to Lenovo, is a Hong Kong–based multinational technology company headquartered in Quarry Bay, and with operational headquarters in Morrisville, North Carolina and Beijing.",
+      "createdUserID": "1",
+      "turnOffComments": false,
+      "createdDate": "2020-08-15T17:49:51.064Z",
+      "id": 16
+    },
+    {
+      "title": "New Article Updated",
+      "content": "some content Updated",
+      "createdUserID": "1",
+      "turnOffComments": false,
+      "createdDate": "2020-08-15T17:49:51.064Z",
+      "id": 17
+    },
+    {
+      "title": "some other article 1234",
+      "content": "some other article 1234",
+      "createdUserID": "1",
+      "turnOffComments": false,
+      "createdDate": "2020-08-17T05:26:41.849Z",
+      "id": 18
+    },
+    {
+      "title": "google",
+      "content": "kjklsjdkf",
+      "createdUserID": "1",
+      "turnOffComments": false,
+      "createdDate": "2020-08-17T06:51:32.293Z",
+      "id": 19
+    },
+    {
+      "title": "google 1",
+      "content": "sdfsdf",
+      "createdUserID": "1",
+      "turnOffComments": false,
+      "createdDate": "2020-08-17T06:52:02.607Z",
+      "id": 20
+    }
+  ],
+  "comments": [
+    {
+      "articleId": "2",
+      "name": "shivateja",
+      "comment": "edited",
+      "createdDate": "2020-08-06T12:30:43.674Z",
+      "createdUID": "1",
+      "id": 3,
+      "updatedDate": "2020-08-06T12:33:14.070Z"
+    },
+    {
+      "articleId": "1",
+      "name": "shivateja",
+      "comment": "Comment Added 1",
+      "createdDate": "2020-08-06T12:33:35.875Z",
+      "createdUID": "1",
+      "id": 4
+    },
+    {
+      "articleId": "1",
+      "name": "abhinav",
+      "comment": "Comment Added 2",
+      "createdDate": "2020-08-06T13:10:02.502Z",
+      "createdUID": "aKs53ES",
+      "id": 5
+    },
+    {
+      "articleId": "1",
+      "name": "some first name",
+      "comment": "some comment added again",
+      "createdDate": "2020-08-06T13:50:31.809Z",
+      "createdUID": "HO6_K00",
+      "id": 7
+    },
+    {
+      "articleId": "1",
+      "name": "some first name",
+      "comment": "ugh!!",
+      "createdDate": "2020-08-06T13:51:18.758Z",
+      "createdUID": "HO6_K00",
+      "id": 8
+    },
+    {
+      "articleId": "1",
+      "name": "some first name",
+      "comment": "hello",
+      "createdDate": "2020-08-06T14:02:16.053Z",
+      "createdUID": "HO6_K00",
+      "id": 9
+    },
+    {
+      "articleId": "1",
+      "name": "some first name",
+      "comment": "span created",
+      "createdDate": "2020-08-06T14:06:29.971Z",
+      "createdUID": "HO6_K00",
+      "id": 10
+    },
+    {
+      "articleId": "1",
+      "name": "some first name",
+      "comment": "asjjh sdhfkhs dfhskd fhs f j wieoiu woweuur",
+      "createdDate": "2020-08-06T14:07:17.389Z",
+      "createdUID": "HO6_K00",
+      "id": 11
+    },
+    {
+      "articleId": "1",
+      "name": "some first name",
+      "comment": "kjlkjlkj lkjlk jlkjlk jlkj lkjlk jlk jl jlk jlkj lkj",
+      "createdDate": "2020-08-06T14:08:40.715Z",
+      "createdUID": "HO6_K00",
+      "id": 12
+    },
+    {
+      "articleId": "1",
+      "name": "some first name",
+      "comment": "sjdlkj jlkj ljsios ",
+      "createdDate": "2020-08-06T14:16:21.214Z",
+      "createdUID": "HO6_K00",
+      "id": 13
+    },
+    {
+      "articleId": "5",
+      "name": "some first name",
+      "comment": "Some comment to be added",
+      "createdDate": "2020-08-08T14:35:57.218Z",
+      "createdUID": "HO6_K00",
+      "id": 21
+    },
+    {
+      "articleId": "4",
+      "name": "shivateja",
+      "comment": "first comment updated",
+      "createdDate": "2020-08-17T07:43:34.873Z",
+      "createdUID": "1",
+      "id": 22,
+      "updatedDate": "2020-08-17T11:13:12.749Z"
+    }
+  ],
+  "tags": [
+
+  ]
+}

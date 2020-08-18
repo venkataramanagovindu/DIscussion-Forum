@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+  <head lang="en">
+      <meta charset="UTF-8">
+      <title>Disscussion Forum</title>
+      <link rel="stylesheet" href="styles/style.css">
+      <script src="./FA/js/all.js"></script>
+      <link rel="icon" type="image/png" href="/favicon.png"/>  </head>
+  <body class=".light-grey">
+    <ul onclick="changeHeaderActive()" style="margin-bottom: 10px;">
+
+      <li><a href="#articles">Articles</a></li>
+      <li><a href="#createArticle">Create Article</a></li>
+      <li id="liCreateUser" style="display: none;"><a href="#createUser" >Create User</a></li>
+      <li class="pointer"><a href="#tags" >Tags</a></li>
+      <li class="pointer"><a href="#myArticles" >My Articles</a></li>
+      <li class="pointer" id="profile" style="float: right;color: white;">
+        <a>
+          <i class="fa fa-user" aria-hidden="true"></i>
+        </a> 
+        <ul class="dropdown" style="left: 88em;right: 0.5em;margin: 0;"> 
+          <li><a href="#profile">My Profile</a></li>
+          <li><a onclick="showModal('Are you sure to want to log out!', undefined, logOut)">logout</a></li>
+        </ul>
+      </li>
+
+        <!-- <a onclick="showModal('Are you sure to want to log out!', undefined, logOut)">
+            Log Out
+        </a> -->
+        <!-- <i class="fa fa-user" aria-hidden="true"></i> -->
+
+      </li>
+
+    </ul>
+
+    <span style="margin-right: 5%;font-family: cursive !important;font-size: larger !important;display: none;text-align: center;transition: padding .3s ease-in-out" id="toasterSpan">
+    </span>
+    <div id="app">
+
+    </div>
+
+    <!-- The Modal -->
+    <div id="globalModal" class="cModal">
+
+      <!-- Modal content -->
+      <div class="cModal-content" style="border-radius: 27px 27px 15px 15px;">
+        <div class="cModal-header" style="border-radius: 20px 20px 0 0;">
+          <span class="cClose" id="closeModel">&times;</span>
+          <h2 id="modalHeaderContent">Modal Header</h2>
+        </div>
+        <div class="cModal-body">
+          <p id="modalBodyContent">Some text in the Modal Body</p>
+        </div>
+        <div class="cModal-footer" style="text-align: center;padding: 10px 0;border-radius: 10px;">
+          <input type="button" style="padding: 5px 25px;background-color: white;" value="Ok" class="btn" id="btnModalOk">
+          <input type="button" style="padding: 5px 25px;background-color: white;" value="Cancel" class="btn" id="btnModalCancle"  onclick="closeModal()">
+        </div>
+      </div>
+
+    </div>
+
+
+    <script src="js/script.js"></script>
+    <script src="js/route.js"></script>
+    <script src="js/router.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/validation.js"></script>
+    <script src="js/addons.js"></script>
+    <script src="js/util.js"></script>
+    <script>
+      // Get the modal
+      var modal = document.getElementById("globalModal");
+      
+      // Get the <span> element that closes the modal
+      var span = document.getElementById("closeModel");
+      
+      // show's the modal
+      function showModal(modalheader, modalBody, callBackFn , params, cancelCallBack){
+        getById('modalHeaderContent').innerText = modalheader;
+        if(modalBody){
+          getById('modalBodyContent').innerText = modalBody;
+          getById('modalBodyContent').parentElement.style.display = 'block';
+        }else{
+          getById('modalBodyContent').parentElement.style.display = 'none';
+          // modalBody.parentElement.remove(modalBody);
+        }
+
+        // add's event listner to the ok button
+        getById('btnModalOk').addEventListener('click', function(){
+          modal.style.display = "none";
+          if(callBackFn){
+            var old = getById('btnModalOk');
+            var new_element = old.cloneNode(true);
+            old.parentNode.replaceChild(new_element, old);
+            callBackFn(params);
+          }
+
+        });
+
+        // add's event listner to the close button
+        getById('btnModalCancle').addEventListener('click', function(){
+          modal.style.display = "none";
+          if(cancelCallBack){
+            var old = getById('btnModalCancle');
+            var new_element = old.cloneNode(true);
+            old.parentNode.replaceChild(new_element, old);
+          cancelCallBack();
+          }
+        });
+        modal.style.display = "block";
+      }
+
+      // When the user clicks on <span> (x), close the modal
+        function closeModal(){
+        modal.style.display = "none";
+        }
+
+      span.onclick = function() {
+        modal.style.display = "none";
+      }
+      
+      // When the user clicks anywhere outside of the modal, close it
+      window.onclick = function(event) {
+        if (event.target == modal) {
+          modal.style.display = "none";
+        }
+      }
+      </script>
+  </body>
+</html>
