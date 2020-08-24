@@ -14,7 +14,22 @@
         <div id="articleParentContainer">
             <h4 id="viewArticleTitle" style="font-size: large !important; width: 100%;display: flex;margin-top: 2px;" class="p-2"></h4>
             <div id="viewArticleContent" style="padding-bottom: 15px;"></div>
+            <textarea name="editContent" id="editContent" cols="30" rows="5" style="width: 100%;padding: 6px;margin: 5px 5px 0 0;display: none;" class="d-none" required></textarea>
         </div>
+
+        <div style="position: relative;margin: 10px;display: none;" id="editTags">
+            <input type="text" name="" id="tagInput" placeholder="start typing here..." class="tag-input">
+            <input type="button" value="add" id="btnTagSubmit" class="button border green-hover">
+        </div>
+
+        <span id="tempSpan">
+        </span>
+
+        <div class="old-Tags" style="pointer-events: none" >
+
+        </div>
+
+
 
         <div>
             <input type="button" style="margin-top: 9px;" name="" id="btnAddComment" class="btn" value="Add Comment" onclick="displayCommentbox()">

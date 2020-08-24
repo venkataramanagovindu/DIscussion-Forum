@@ -6,7 +6,8 @@
   transition: 0.5s;
 } */
 
-.button.edit:hover {
+.button.edit:hover,
+.green-hover:hover {
   background-color: rgb(255, 255, 255) !important;
   color: green !important;
   box-shadow: 0px 0px 2px 2px green;
@@ -221,7 +222,7 @@ ul {
 /* button styles end */
 
 .pointer{
-  cursor: pointer;
+  cursor: pointer !important;
 }
 
 /* active header color */
@@ -238,7 +239,8 @@ svg:hover{
 
 
 
-svg#deleteIcon:hover{
+svg#deleteIcon:hover,
+svg.deleteIcon:hover{
   color: red;
 }
 
@@ -382,7 +384,7 @@ h3 {
 }
 
 .padding-large {
-  padding: 12px 24px!important;
+  padding: 9px 24px!important;
 }
 
 .border {
@@ -404,10 +406,10 @@ h3 {
   white-space: nowrap;
 }
 
-.button:hover {
+.button.padding-large:hover {
   color: #000!important;
   background-color: #ccc!important;
-  padding: 12px 25px!important;
+  padding: 9px 26px!important;
 }
 
 .light-grey, .hover-light-grey:hover, .light-gray, .hover-light-gray:hover {
@@ -454,4 +456,114 @@ h3 {
 
 input:read-only {
   background-color: rgba(68, 59, 59, 0.19);
+}
+
+.Tags-Container{
+  border: 1px solid black;
+  border-radius: 2px;
+}
+
+.tags-outer{
+  padding: 10px;
+}
+
+.tag-input{
+  background: transparent;
+  font-family: var(--ytcp-font-subheading_-_font-family);
+  font-weight: var(--ytcp-font-subheading_-_font-weight);
+  -webkit-font-smoothing: var(--ytcp-font-subheading_-_-webkit-font-smoothing);
+  font-size: var(--ytcp-font-subheading_-_font-size);
+  line-height: var(--ytcp-font-subheading_-_line-height);
+  color: var(--ytcp-black-primary);
+  border: none;
+  padding: 0px;
+  height: 32px;
+  flex: 1;
+  min-width: 40px;
+  caret-color: var(--ytcp-studio-blue);
+}
+
+input.tag-input:focus{
+  outline: none;
+}
+
+.tags-inner{
+  padding: 10px;
+}
+
+.tag-chip-container{
+  display: inline-block;
+  padding: 5px 7px 5px 12px;
+  background: #ebebeb;
+  /* border: 1px solid rgb(110, 110, 110); */
+  border-radius: 26px;
+  margin: 10px;
+}
+
+.tag-chip-container:hover{
+  background: #e2e2e2;
+  cursor: pointer;
+}
+
+.inline{
+  display: inline !important;
+}
+
+.chip-text{
+  display: inline;
+  padding-right: 6px;
+}
+
+/* autocomplete start */
+
+.autocomplete {
+  position: relative;
+  display: inline-block;
+}
+
+.autocomplete-items {
+  position: absolute;
+  border: 1px solid #d4d4d4;
+  border-bottom: none;
+  border-top: none;
+  z-index: 99;
+  /*position the autocomplete items to be the same width as the container:*/
+  top: 100%;
+  left: 0;
+  right: 0;
+  text-align: left !important;
+  width: 14.5em;
+  
+}
+
+.autocomplete-items div {
+  padding: 10px;
+  cursor: pointer;
+  background-color: #fff; 
+  border-bottom: 1px solid #d4d4d4; 
+}
+
+/*when hovering an item:*/
+.autocomplete-items div:hover {
+  background-color: #e9e9e9; 
+}
+
+/*when navigating through the items using the arrow keys:*/
+.autocomplete-active {
+  background-color: DodgerBlue !important; 
+  color: #ffffff; 
+}
+
+/* autocomplete end */
+
+.margin-s{
+  margin: 2px !important;
+}
+
+.margin0 {
+  margin: 0 !important;
+}
+
+.d-none {
+  display: none !important;
 }

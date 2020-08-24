@@ -66,6 +66,7 @@ Router.prototype = {
                     if(window.location.hash.includes('articles')){
                         // call get all articles function if the route is articles
                         getAllArticles();
+                        
                     }
         
                     if(window.location.hash.includes('viewArticle')){
@@ -86,6 +87,16 @@ Router.prototype = {
                     if(window.location.hash.includes('profile')){
                         // call getAllUsers function if the route is users
                         getUserDetails(getItem('userID'));
+                    }
+
+                    if(window.location.hash.includes('tags')){
+                        // call getTags function if the route is tags
+                        getTags();
+                    }
+
+                    if(window.location.hash.includes('createArticle')){
+                        // call getTags function if the route is tags
+                        loadTags();
                     }
                 }
             };

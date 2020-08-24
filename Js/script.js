@@ -15,6 +15,7 @@
 // Show create user nav bar if signed in user is an admin
 if(isAdminFn()){
     getById('liCreateUser').style.display = 'list-item';
+    getById('liCreateTags').style.display = 'list-item';
 }
 
 // adding and removing the CSS class for nav bar (on hash change)
@@ -95,12 +96,30 @@ var lastPageClosure = lastPage();
 
 // function to get all articles depennd on the parameters
 function getAllArticles(userID = undefined, searchInput = undefined, pageNumber = 1){
+
+        // clear search and tag inputs an getting all articles
+        if(getById('getAllArticlesBtn')){
+            getById('getAllArticlesBtn').addEventListener( 'click', function() {
+                var tag = getById('tagInput');
+                var searchIp = getById('btnTagSearchSubmit');
+                if(tag && searchIp){
+                    tag.value = '';
+                    searchIp.value = '';
+                }
+                getById('tagInfo').style.display = 'none';
+            });
+        }
+
     var perPage = 5;
 
     var XHTTP = new XMLHttpRequest();
 
     XHTTP.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
+
+            // gets tags for search with tag
+            // getTagsForSearch()
+            loadTags(true);
 
             if(pageNumber == 1){
                 getById('previous').disabled = true;
@@ -147,6 +166,7 @@ function getAllArticles(userID = undefined, searchInput = undefined, pageNumber 
 
                 // iterating through the received data and creating the article's table
                 for(var i = 0; i < articles.length; i++){
+
                     var tr = document.createElement('tr');
                     article = articles[i];
 
@@ -167,7 +187,9 @@ function getAllArticles(userID = undefined, searchInput = undefined, pageNumber 
                     titleDiv.append(createdDate);
                     var contentElem = document.createElement('p');
                     contentElem.setAttribute('class','module line-clamp');
-                    contentElem.innerText = article['content'];
+                    contentElem.style.maxHeight = '5em';
+                    contentElem.style.pointerEvents = 'none';
+                    contentElem.innerHTML = article['content'];
                     td.setAttribute('class', 'truncate');
 
                     var readMoreDiv = document.createElement('p');
@@ -181,11 +203,13 @@ function getAllArticles(userID = undefined, searchInput = undefined, pageNumber 
                     var thirdDiv = document.createElement('div');
                     thirdDiv.setAttribute('class','onefourth col');
                     var pElem = document.createElement('p');
+                    // pElem.setAttribute('class', 'margin0');
                     var spanComments = document.createElement('span');
                     spanComments.setAttribute('class', 'padding-large left');
                     var comments = document.createElement('b');
                     comments.innerHTML = 'Comments &nbsp;'
                     var count = document.createElement('span');
+                    getCommentCount(article['id'], count);
                     count.setAttribute('class', 'tag');
                     count.innerText = 0;
                     spanComments.append(comments, count);
@@ -197,6 +221,20 @@ function getAllArticles(userID = undefined, searchInput = undefined, pageNumber 
                     td.append(titleDiv);
                     // td.append(contentElem, readMoreDiv, editP, deleteP, thirdDiv);
                     // tr.append(td);
+
+                    //tags div
+                    var tagsDiv = document.createElement('div');
+                    tagsDiv.setAttribute('class','.old-Tags');
+                    tagsDiv.style.width = '75%';
+                    tagsDiv.style.pointerEvents = 'none';
+                    tagsDiv.style.clear = 'both';
+                    
+                    //
+                    if(article.tags){
+                        article.tags.forEach( function(val) {
+                            getArticleTag(Number(val), tagsDiv);
+                        });
+                    }
 
                     // checking weather need to add edit and delete actions 
                     if(userID || isAdmin){
@@ -273,9 +311,9 @@ function getAllArticles(userID = undefined, searchInput = undefined, pageNumber 
                     }
 
                     if( editP && deleteP){
-                        td.append(contentElem, readMoreDiv, editP, deleteP, thirdDiv);
+                        td.append(contentElem, readMoreDiv, editP, deleteP, thirdDiv, tagsDiv);
                     }else{
-                        td.append(contentElem, readMoreDiv, thirdDiv);
+                        td.append(contentElem, readMoreDiv, thirdDiv, tagsDiv);
                     }
                     // td.append(contentElem, readMoreDiv, editP, deleteP, thirdDiv);
                     tr.append(td);
@@ -313,6 +351,27 @@ function getAllArticles(userID = undefined, searchInput = undefined, pageNumber 
         XHTTP.open('GET', 'http://localhost:3000/Articles?_page=' + pageNumber + '&_limit=' + perPage);   
     }
     
+    XHTTP.send();
+}
+
+// gets the comments for an article
+function getCommentCount(articleId, ref){
+    var XHTTP = new XMLHttpRequest();
+
+    XHTTP.onreadystatechange = function(){
+        if( this.readyState == 4 && this.status == 200){
+            var count = JSON.parse(this.response);
+            if(count.length){
+                ref.innerText = count.length;
+            }else ref.innerText = 0;
+        }
+
+        if(this.status == 404){
+            showToaster('Unable to dele article','error');
+        }
+    }
+
+    XHTTP.open('GET', 'http://localhost:3000/comments/?articleId=' + articleId);
     XHTTP.send();
 }
 
@@ -359,7 +418,7 @@ function validateTitleAndAddArticle(){
     var createArticleForm = document.getElementById('createArticleForm');
 
     var ArticleTitle = createArticleForm.title.value;
-    var content = createArticleForm.content.value;
+    var content = CKEDITOR.instances.content.getData();
 
     if( ArticleTitle == undefined || title == '' ||
         content == undefined || content == '' ||
@@ -368,6 +427,15 @@ function validateTitleAndAddArticle(){
             showToaster('Please enter valid details', 'error');
             return;
     }
+    var tagChips = Array.from(document.querySelectorAll('div.tag-chip-container'));
+    var tagIDs;
+    if(tagChips.length){
+        tagIDs = [];
+        tagChips.forEach( function(val) {
+            tagIDs.push(val.dataset.tagid);
+        });
+    }
+
 
     XHTTP.onreadystatechange = function(){
         if( this.readyState == 4 && this.status == 200){
@@ -388,7 +456,7 @@ function validateTitleAndAddArticle(){
                 var createdUserID = localStorage.getItem('userID');
                 var turnOffComments = getById('turnOffComments').checked;
 
-                addArticle({title : ArticleTitle, content, createdUserID, turnOffComments, createdDate : new Date()});
+                addArticle({title : ArticleTitle, content, createdUserID, turnOffComments, createdDate : new Date(), tags : tagIDs});
             }else{
                 var title = document.getElementById('title');
                 var span = document.createElement('span');
@@ -437,31 +505,71 @@ function addArticle(article){
 
 // make UI changes on clicking edit artile
 function editArticle(){
+
+    getById('editTags').style.display = 'block';
+    document.querySelector('.old-Tags').style.pointerEvents = 'auto';
+
     viewArticleTitle.contentEditable = 'true';
-    viewArticleContent.contentEditable = 'true';
+    // viewArticleContent.contentEditable = 'true';
+    viewArticleContent.style.display = 'none';
+
+    CKEDITOR.replace('editContent');
+    CKEDITOR.instances.editContent.setData(viewArticleContent.innerHTML);
 
     var updateArticle = getById('updateArticle');
     updateArticle.style.display = 'inline-block';
     var editArticleSpan = getById('editArticleSpan');
     editArticleSpan.style.display = 'block';
     getById('spanCloseEditArticle').style.display = 'block';
+    loadTags();
 }
 
 // Closing the Edit article
 function closeEditArticle(){
+    // tag related css changes
+    getById('editTags').style.display = 'none';
+    document.querySelector('.old-Tags').style.pointerEvents = 'none';
+
     var updateArticle = getById('updateArticle');
     updateArticle.style.display = 'none';
     getById('spanCloseEditArticle').style.display = 'none';
     var editArticleSpan = getById('editArticleSpan');
     editArticleSpan.style.display = 'none';
     viewArticleTitle.contentEditable = 'false';
-    viewArticleContent.contentEditable = 'false';
+    // viewArticleContent.contentEditable = 'false';
+    viewArticleContent.style.display = 'block';
+    getById('tempSpan').innerHTML = "";
+
+    var chipsDiv = document.querySelector('.old-Tags');
+    var chipArray = Array.from(chipsDiv.querySelectorAll('.tag-chip-container'));
+    chipArray.forEach( function(chip) {
+        if(chip.style.display == 'none'){
+            chip.style.display = 'inline-block';
+        }
+    });
+    
+    // document.querySelector('.old-Tags').innerHTML = "";
+
+            CKEDITOR.instances.editContent.destroy();
+
+            // location.reload();
 }
 
 // submit's the edited article to the DB
 function updateArticle(){
     var title = viewArticleTitle.innerText;
-    var content = viewArticleContent.innerText;
+    var content = CKEDITOR.instances.editContent.getData();
+
+    var tagChips = Array.from(document.querySelectorAll('div.tag-chip-container'));
+    var tagIDs;
+    if(tagChips.length){
+        tagIDs = [];
+        tagChips.forEach( function(val) {
+            if( val.style.display != 'none'){
+                tagIDs.push(val.dataset.tagid);
+            }
+        });
+    }
 
     if( title == undefined || title == '' ||
         content == undefined || content == '' ||
@@ -470,7 +578,7 @@ function updateArticle(){
             return;
     }
 
-    var article = {title, content, updatedDate : new Date()};
+    var article = {title, content, updatedDate : new Date(), tags : tagIDs? tagIDs : []};
 
     var XHTTP = new XMLHttpRequest();
 
@@ -481,16 +589,29 @@ function updateArticle(){
             // redirectToViewArticle(article.id);
             // alert("updated successfully");
             showToaster('updated successfully', 'info');
+
+            // tag css changes
+            getById('editTags').style.display = 'none';
+            document.querySelector('.old-Tags').style.pointerEvents = 'none';
+
+
+            // location.reload();
             getById('spanCloseEditArticle').style.display = 'none';
             var updateArticle = getById('updateArticle');
             updateArticle.style.display = 'none';
             var editArticleSpan = getById('editArticleSpan');
             editArticleSpan.style.display = 'none';
             viewArticleTitle.contentEditable = 'false';
-            viewArticleContent.contentEditable = 'false';
+            // viewArticleContent.contentEditable = 'false';
+            viewArticleContent.style.display = 'block';
+            document.querySelector('.old-Tags').innerHTML = "";
+            getById('tempSpan').innerHTML = "";
+
+            CKEDITOR.instances.editContent.destroy();
+            loadViewArticle(true);
         }
 
-        if( this.status = 404 ){
+        if( this.status == 404 ){
             showToaster('error occured while updating the article','error');
         }        
     }
@@ -627,7 +748,38 @@ function loadViewArticle(toggleComments = false){
                      
     
                     title.innerText = article['title'];
-                    content.innerText = article['content'];
+                    content.innerHTML = article['content'];
+
+                    if(article.tags){
+                        article.tags.forEach( function(val) {
+                            // var chipContainer = document.createElement('div');
+                            // chipContainer.setAttribute('class', 'tag-chip-container');
+                            // chipContainer.dataset.tagid = val.id;
+                            
+                            // var text = document.createElement('div');
+                            // text.setAttribute('class', 'chip-text');
+                            // text.innerText = val.tagName;
+        
+                            // var dlt = document.createElement('div');
+                            // dlt.setAttribute('class', 'inline');
+                    
+                            // var dltI = document.createElement('i');
+                            // dltI.setAttribute('class', 'far fa-times-circle deleteIcon');
+                            // dlt.addEventListener('click', removeChip);
+        
+                    
+                            // dlt.appendChild(dltI);
+                            // chipContainer.appendChild(text);
+                            // chipContainer.appendChild(dlt);
+                            // // tagInput.append(chipContainer);
+                    
+                            // var parent = document.querySelector('.old-Tags');
+                            getArticleTag(Number(val));
+                            // parent.append(chipContainer);
+
+                        });
+                    }
+
                     getById('turnOffComments').checked = article['turnOffComments'];
 
                     // adding event listners to turn on/off comments checkbox 
@@ -680,6 +832,58 @@ function loadViewArticle(toggleComments = false){
         window.location.href = "http://127.0.0.1:8887/#articles";
     }
     
+}
+
+// get article tag
+function getArticleTag(tagid, ref){
+    if(tagid){
+        var XHTTP = new XMLHttpRequest();
+
+        XHTTP.onreadystatechange = function(){
+            if( this.readyState == 4 && this.status == 200){
+                var tag = JSON.parse(this.response);
+                // document.querySelector('.old-Tags').innerHTML = '';
+                if(tag){
+                    var chipContainer = document.createElement('div');
+                    chipContainer.dataset.tagid = tag.id;
+                    
+                    var text = document.createElement('div');
+                    text.setAttribute('class', 'chip-text');
+                    text.innerText = tag.tagName;
+
+                    var dlt = document.createElement('div');
+                    dlt.setAttribute('class', 'inline');
+            
+                    var dltI = document.createElement('i');
+                    dltI.setAttribute('class', 'far fa-times-circle deleteIcon');
+                    dlt.addEventListener('click', removeChipCreateArticle);
+
+            
+                    dlt.appendChild(dltI);
+                    chipContainer.appendChild(text);
+                    chipContainer.appendChild(dlt);
+                    // tagInput.append(chipContainer);
+                    if(ref){
+                        chipContainer.setAttribute('class', 'tag-chip-container');
+                        ref.append(chipContainer);
+                    }else{
+                        chipContainer.setAttribute('class', 'tag-chip-container');
+                        var parent = document.querySelector('.old-Tags');
+                        parent.append(chipContainer);
+                    }
+
+                }
+            }
+    
+            if( this.status == 404){
+                // showToaster('error occured while getting Tags', 'error');
+            }
+        }
+    
+        XHTTP.open('GET', 'http://localhost:3000/tags/' + tagid, true);
+        XHTTP.setRequestHeader('Content-Type', 'application/json');
+        XHTTP.send();
+    }
 }
 
 // checking the user has edit access or not and enabling edit if has access
@@ -1072,3 +1276,412 @@ function updateUser(User, id){
     XHTTP.setRequestHeader('Content-Type', 'application/json');
     XHTTP.send(JSON.stringify(User));
 }
+
+// create's new tag chip
+function createChip(e){
+    if(e.keyCode == 188){
+        var tagInput = event.target;
+        event.preventDefault();
+
+        if(tagInput.value){
+
+            // createTags(tagInput.value);
+            tagInput.value = '';
+
+
+            // var chipContainer = document.createElement('div');
+            // chipContainer.setAttribute('class', 'tag-chip-container');
+            
+            // var text = document.createElement('div');
+            // text.setAttribute('class', 'chip-text');
+            // text.innerText = tagInput.value;
+            // tagInput.value = '';
+
+            // var dlt = document.createElement('div');
+            // dlt.setAttribute('class', 'inline');
+    
+            // var dltI = document.createElement('i');
+            // dltI.setAttribute('class', 'far fa-times-circle deleteIcon');
+            // dlt.addEventListener('click', removeChip);
+    
+            // dlt.appendChild(dltI);
+            // chipContainer.appendChild(text);
+            // chipContainer.appendChild(dlt);
+            // // tagInput.append(chipContainer);
+    
+            // var parent = document.querySelector('.tags-inner');
+            // var dd = parent.firstElementChild;
+            // dd.append(chipContainer);
+            // parent.insertBefore(chipContainer, tagInput);
+        }
+    }
+} 
+
+// removes the chip
+function removeChip(event){
+
+    if(event){
+        var dltDiv = event.target.closest('div.tag-chip-container'); 
+        if(dltDiv.parentElement.className == 'old-Tags'){
+            dltDiv.style.display = 'none';
+        }else{
+            dltDiv.parentElement.removeChild(dltDiv);
+        }  
+    }
+
+    // var tagsInner = document.querySelector('.old-Tags');
+    // var dltDiv = event.target.closest('div.tag-chip-container');
+
+    // deleteTag(dltDiv.dataset.tagid);
+
+    // tagsInner.removeChild(dltDiv);
+}
+
+//
+function validateTagAndCreate(){
+    var tagName = getById('tag-input');
+    if(tagName.value){
+        var XHTTP = new XMLHttpRequest();
+
+        XHTTP.onreadystatechange = function(){
+            if( this.readyState == 4 && this.status == 200){
+                var tags = JSON.parse(this.response);
+    
+                // Filtering the returned data
+                tags = tags.filter( function(tag) {
+                    return tag.tagName.toLowerCase() == tagName.value.toLowerCase();
+                });
+    
+                if(tags.length > 0) 
+                {
+                    showToaster('tag already exists', 'info');
+                    tagName.value = '';
+                }
+                else createTags(tagName.value)
+            }
+    
+            if( this.status == 404){
+                showToaster('error occured while validating the tag', 'error');
+            }
+        }
+    
+        XHTTP.open('GET', 'http://localhost:3000/tags?tagName_like=' + tagName.value);
+        XHTTP.setRequestHeader('Content-Type', 'application/json');
+        XHTTP.send(); 
+    }  
+}
+
+// creates new tags
+function createTags(tagName = undefined){
+    // var tagElems = document.querySelectorAll('div.chip-text');
+    // var tags = [];
+    // for(var i = 0; i < tagElems.length; i++){
+    //     tags.push({tagName: tagElems[i].innerText, createdDate : new Date()});
+    // }
+
+    // checking the length of the tags
+
+    if(tagName){
+        var XHTTP = new XMLHttpRequest();
+
+        XHTTP.onreadystatechange = function(){
+            if( this.readyState == 4 && this.status == 201){
+                console.log(this.response);
+                article = JSON.parse(this.response);
+                // redirectToViewArticle(article.id);
+                // alert("updated successfully");
+                showToaster('Tags added successfully', 'info');
+                getById('tag-input').value = '';
+                getTags();
+            }
+
+            if( this.status == 404){
+                showToaster('error occured while adding Tags', 'error');
+            }
+        }
+    
+        XHTTP.open('POST', 'http://localhost:3000/tags', true);
+        XHTTP.setRequestHeader('Content-Type', 'application/json');
+        XHTTP.send(JSON.stringify({tagName: tagName, createdDate : new Date()}));
+    }
+}
+
+// gets the tags
+function getTags(){
+    var XHTTP = new XMLHttpRequest();
+
+    XHTTP.onreadystatechange = function(){
+        if( this.readyState == 4 && this.status == 200){
+            var tags = JSON.parse(this.response);
+            document.querySelector('.old-Tags').innerHTML = '';
+            if(tags.length){
+                tags.forEach( function(val) {
+                    var chipContainer = document.createElement('div');
+                    chipContainer.setAttribute('class', 'tag-chip-container');
+                    chipContainer.dataset.tagid = val.id;
+                    
+                    var text = document.createElement('div');
+                    text.setAttribute('class', 'chip-text');
+                    text.innerText = val.tagName;
+
+                    var dlt = document.createElement('div');
+                    dlt.setAttribute('class', 'inline');
+            
+                    var dltI = document.createElement('i');
+                    dltI.setAttribute('class', 'far fa-times-circle deleteIcon');
+                    dlt.addEventListener('click', removeChip);
+
+            
+                    dlt.appendChild(dltI);
+                    chipContainer.appendChild(text);
+                    chipContainer.appendChild(dlt);
+                    // tagInput.append(chipContainer);
+            
+                    var parent = document.querySelector('.old-Tags');
+                    
+                    parent.append(chipContainer);
+                });
+            }
+        }
+
+        if( this.status == 404){
+            // showToaster('error occured while getting Tags', 'error');
+        }
+    }
+
+    XHTTP.open('GET', 'http://localhost:3000/tags', true);
+    XHTTP.setRequestHeader('Content-Type', 'application/json');
+    XHTTP.send();
+}
+
+// delet's the tag 
+function deleteTag(tagID){
+    var XHTTP = new XMLHttpRequest();
+
+    XHTTP.onreadystatechange = function(){
+        if( this.readyState == 4 && this.status == 200){
+            showToaster('deleted tag successfully', 'info');
+            getTags();
+        }
+
+        if(this.status == 404){
+            showToaster('unable to delete the tag', 'error');
+        }
+    }
+
+    XHTTP.open('DELETE', 'http://localhost:3000/Tags/' + tagID, true);
+    XHTTP.send(); 
+}
+
+// load lags for creating article
+function loadTags(isFromArticles = false){
+    if(!isFromArticles){
+        CKEDITOR.replace( 'content');
+    }
+    // CKEDITOR.instances.content.setData('some temp data');
+    var XHTTP = new XMLHttpRequest();
+
+    XHTTP.onreadystatechange = function(){
+        if( this.readyState == 4 && this.status == 200){
+            var tags = JSON.parse(this.response);
+            if(tags.length && getById('tagInput')){
+                autocomplete(getById('tagInput'), tags);
+            }
+        }
+
+        if( this.status == 404){
+            // showToaster('error occured while getting Tags', 'error');
+        }
+    }
+
+    XHTTP.open('GET', 'http://localhost:3000/tags', true);
+    XHTTP.setRequestHeader('Content-Type', 'application/json');
+    XHTTP.send();   
+}
+
+// auto complete tags
+function autocomplete(inp, arr) {
+    /*the autocomplete function takes two arguments,
+    the text field element and an array of possible autocompleted values:*/
+    var currentFocus;
+    /*execute a function when someone writes in the text field:*/
+    inp.addEventListener("input", function(e) {
+        var listItem, listContainer, i, val = this.value;
+        /*close any already open lists of autocompleted values*/
+        closeAllLists();
+        if (!val) { return false;}
+        currentFocus = -1;
+        /*create a DIV element that will contain the items (values):*/
+        listContainer = document.createElement("DIV");
+        listContainer.setAttribute("id", this.id + "autocomplete-list");
+        listContainer.setAttribute("class", "autocomplete-items");
+        /*append the DIV element as a child of the autocomplete container:*/
+        this.parentNode.appendChild(listContainer);
+        /*for each item in the array...*/
+        for (i = 0; i < arr.length; i++) {
+          /*check if the item starts with the same letters as the text field value:*/
+          if (arr[i].tagName.substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+            /*create a DIV element for each matching element:*/
+            listItem = document.createElement("DIV");
+            listItem.dataset.tagid = arr[i].id;
+            /*make the matching letters bold:*/
+            listItem.innerHTML = "<strong>" + arr[i].tagName.substr(0, val.length) + "</strong>";
+            listItem.innerHTML += arr[i].tagName.substr(val.length);
+            /*insert a input field that will hold the current array item's value:*/
+            listItem.innerHTML += "<input type='hidden' value='" + arr[i].tagName + "'>";
+            /*execute a function when someone clicks on the item value (DIV element):*/
+            listItem.addEventListener("click", function(e) {
+                /*insert the value for the autocomplete text field:*/
+                inp.value = this.getElementsByTagName("input")[0].value;
+                /*close the list of autocompleted values,
+                (or any other open lists of autocompleted values:*/
+                closeAllLists();
+            });
+            listContainer.appendChild(listItem);
+          }
+        }
+    });
+    /*execute a function presses a key on the keyboard:*/
+    inp.addEventListener("keydown", function(e) {
+        var list = document.getElementById(this.id + "autocomplete-list");
+        if (list) list = list.getElementsByTagName("div");
+        if (e.keyCode == 40) {
+          /*If the arrow DOWN key is pressed,
+          increase the currentFocus variable:*/
+          currentFocus++;
+          /*and and make the current item more visible:*/
+          addActive(list);
+        } else if (e.keyCode == 38) { //up
+          /*If the arrow UP key is pressed,
+          decrease the currentFocus variable:*/
+          currentFocus--;
+          /*and and make the current item more visible:*/
+          addActive(list);
+        } else if (e.keyCode == 13) {
+          /*If the ENTER key is pressed, prevent the form from being submitted,*/
+          e.preventDefault();
+          if (currentFocus > -1) {
+            /*and simulate a click on the "active" item:*/
+            if (list) list[currentFocus].click();
+          }
+        }
+    });
+    function addActive(x) {
+      /*a function to classify an item as "active":*/
+      if (!x) return false;
+      /*start by removing the "active" class on all items:*/
+      removeActive(x);
+      if (currentFocus >= x.length) currentFocus = 0;
+      if (currentFocus < 0) currentFocus = (x.length - 1);
+      /*add class "autocomplete-active":*/
+      x[currentFocus].classList.add("autocomplete-active");
+    }
+    function removeActive(x) {
+      /*a function to remove the "active" class from all autocomplete items:*/
+      for (var i = 0; i < x.length; i++) {
+        x[i].classList.remove("autocomplete-active");
+      }
+    }
+    function closeAllLists(elmnt) {
+      /*close all autocomplete lists in the document,
+      except the one passed as an argument:*/
+      var x = document.getElementsByClassName("autocomplete-items");
+      for (var i = 0; i < x.length; i++) {
+        if (elmnt != x[i] && elmnt != inp) {
+          x[i].parentNode.removeChild(x[i]);
+        }
+      }
+    }
+    /*execute a function when someone clicks in the document:*/
+    document.addEventListener("click", function (e) {
+        closeAllLists(e.target);
+    });
+
+
+    if(getById('btnTagSubmit')){
+        getById('btnTagSubmit').addEventListener('click', function(e){
+            var tagName = inp.value;
+            if(tagName){
+                var isValidTag = arr.filter( function(val) {
+                    return val.tagName == tagName;
+                });
+    
+                var tagElems = document.querySelectorAll('div.chip-text');
+                for(var i = 0; i < tagElems.length; i++){
+                    if(isValidTag[0].tagName == tagElems[i].innerText){
+                        if( tagElems[i].closest('div.tag-chip-container' )){
+                            tagElems[i].closest('div.tag-chip-container').style.display = 'inline-block';
+                        }
+                        inp.value = "";
+                        return;
+                    }
+                    // tags.push({tagName: tagElems[i].innerText, createdDate : new Date()});
+                }
+                if(isValidTag.length){
+                    var chipContainer = document.createElement('div');
+                    chipContainer.setAttribute('class', 'tag-chip-container');
+                    chipContainer.dataset.tagid = isValidTag[0].id;
+                    
+                    var text = document.createElement('div');
+                    text.setAttribute('class', 'chip-text');
+                    text.innerText = isValidTag[0].tagName;
+    
+                    var dlt = document.createElement('div');
+                    dlt.setAttribute('class', 'inline');
+            
+                    var dltI = document.createElement('i');
+                    dltI.setAttribute('class', 'far fa-times-circle deleteIcon');
+                    dlt.addEventListener('click', removeChipCreateArticle);
+    
+            
+                    dlt.appendChild(dltI);
+                    chipContainer.appendChild(text);
+                    chipContainer.appendChild(dlt);
+                    // tagInput.append(chipContainer);
+            
+                   
+
+                    if(getById('tempSpan')){
+                        var parent = getById('tempSpan');
+                        
+                    }else{
+                        var parent = document.querySelector('.old-Tags');
+                    }
+                    
+                    parent.append(chipContainer);
+                    inp.value = "";
+                }
+            }
+        });
+    }
+
+}
+
+// removes the chip from create article
+function removeChipCreateArticle(event){
+    // if(event){
+    //     var dltDiv = event.target.closest('div.tag-chip-container'); 
+    //     dltDiv.parentElement.removeChild(dltDiv);
+    // }
+
+    if(event){
+        var dltDiv = event.target.closest('div.tag-chip-container'); 
+        if(dltDiv.parentElement.className == 'old-Tags'){
+            dltDiv.style.display = 'none';
+        }else{
+            dltDiv.parentElement.removeChild(dltDiv);
+        }  
+    }
+
+    // var tagsInner = document.querySelector('.old-Tags');
+    
+
+    // // deleteTag(dltDiv.dataset.tagid);
+
+    // tagsInner.removeChild(dltDiv);
+}   
+
+function ck4(){
+    var data = CKEDITOR.instances.content.getData();
+}
+

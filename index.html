@@ -6,13 +6,67 @@
       <link rel="stylesheet" href="styles/style.css">
       <script src="./FA/js/all.js"></script>
       <link rel="icon" type="image/png" href="/favicon.png"/>  </head>
+
+      <style>
+        .dropbtn {
+          background-color: #4CAF50;
+          color: white;
+          padding: 16px;
+          font-size: 16px;
+          border: none;
+          cursor: pointer;
+        }
+        
+        .dropbtn:hover, .dropbtn:focus {
+          background-color: #3e8e41;
+        }
+        
+        #tagInput {
+          box-sizing: border-box;
+          /* background-image: url('searchicon.png'); */
+          background-position: 14px 12px;
+          background-repeat: no-repeat;
+          font-size: 16px;
+          padding: 14px 20px 12px 45px;
+          border: none;
+          border-bottom: 1px solid #ddd;
+        }
+        
+        #tagInput:focus {outline: 3px solid #ddd;}
+        
+        .dropdown {
+          position: relative;
+          display: inline-block;
+        }
+        
+        .dropdown-content {
+          display: none;
+          position: absolute;
+          background-color: #f6f6f6;
+          min-width: 230px;
+          overflow: auto;
+          border: 1px solid #ddd;
+          z-index: 1;
+        }
+        
+        .dropdown-content a {
+          color: black;
+          padding: 12px 16px;
+          text-decoration: none;
+          display: block;
+        }
+        
+        .dropdown a:hover {background-color: #ddd;}
+        
+        .show {display: block;}
+        </style>
   <body class=".light-grey">
-    <ul onclick="changeHeaderActive()" style="margin-bottom: 10px;">
+    <ul onclick="changeHeaderActive()" style="margin-bottom: 10px;" class="pointer">
 
       <li><a href="#articles">Articles</a></li>
       <li><a href="#createArticle">Create Article</a></li>
       <li id="liCreateUser" style="display: none;"><a href="#createUser" >Create User</a></li>
-      <li class="pointer"><a href="#tags" >Tags</a></li>
+      <li id="liCreateTags" style="display: none;" class="pointer"><a href="#tags" >Tags</a></li>
       <li class="pointer"><a href="#myArticles" >My Articles</a></li>
       <li class="pointer" id="profile" style="float: right;color: white;">
         <a>
@@ -35,6 +89,7 @@
 
     <span style="margin-right: 5%;font-family: cursive !important;font-size: larger !important;display: none;text-align: center;transition: padding .3s ease-in-out" id="toasterSpan">
     </span>
+
     <div id="app">
 
     </div>
@@ -60,6 +115,8 @@
     </div>
 
 
+
+
     <script src="js/script.js"></script>
     <script src="js/route.js"></script>
     <script src="js/router.js"></script>
@@ -67,6 +124,9 @@
     <script src="js/validation.js"></script>
     <script src="js/addons.js"></script>
     <script src="js/util.js"></script>
+    <script src="js/tagsSearch.js"></script>
+    <!-- <script src="https://cdn.ckeditor.com/4.14.1/standard/ckeditor.js"></script> -->
+    <script src="/ckeditor/ckeditor.js"></script>
     <script>
       // Get the modal
       var modal = document.getElementById("globalModal");
@@ -126,5 +186,29 @@
         }
       }
       </script>
+
+<script>
+  /* When the user clicks on the button,
+  toggle between hiding and showing the dropdown content */
+  function myFunction() {
+    document.getElementById("tagsdropdown").classList.toggle("show");
+  }
+  
+  function filterFunction() {
+    var input, filter, ul, li, a, i;
+    input = document.getElementById("tagInput");
+    filter = input.value.toUpperCase();
+    div = document.getElementById("tagsdropdown");
+    a = div.getElementsByTagName("a");
+    for (i = 0; i < a.length; i++) {
+      txtValue = a[i].textContent || a[i].innerText;
+      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        a[i].style.display = "";
+      } else {
+        a[i].style.display = "none";
+      }
+    }
+  }
+  </script>
   </body>
 </html>

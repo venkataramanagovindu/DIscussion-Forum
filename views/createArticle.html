@@ -6,18 +6,50 @@
             <span id="spanTitleError" style="display: none;color: red;font-weight: bold;"></span>
             <br/>
             <label for="content">Content</label>
+            <!-- <textarea name="content" id="content" cols="30" rows="5" onblur="validateContent()" style="width: 100%;padding: 6px;margin: 5px 5px 0 0;" required></textarea> -->
+
             <textarea name="content" id="content" cols="30" rows="5" onblur="validateContent()" style="width: 100%;padding: 6px;margin: 5px 5px 0 0;" required></textarea>
+
             <span id="spanContentError" style="display: none;color: red;font-weight: bold;"></span>
-    
             <div id="divTurnOffComments" style="margin-right: 5px;">
                 <input type="checkbox" onchange="toggleComments()" class="pointer" id="turnOffComments">
                 <label for="turnOffComments" class="pointer">Turn Off Comments</label>
-                
+            </div>
+            
+            <div style="position: relative;margin: 10px;">
+                <input type="text" name="" id="tagInput" placeholder="search tags here..." class="tag-input">
+                <input type="button" value="add" id="btnTagSubmit" class="button border green-hover">
             </div>
 
+
+
+            <div class="Tags-Container">
+                <div class="tags-outer">
+                    Tags
+                </div>
+        
+                <div class="tags-inner">
+                    <!-- <span id="tempSpan">
+                    </span> -->
+
+                    <div class="old-Tags">
+
+                    </div>
+                    <!-- <div class="tag-chip-container">
+                        PubG
+                        <div class="inline">
+                            <i class="far fa-times-circle" class="deleteIcon"></i>
+                        </div>
+                    </div> -->
+                    <!-- <input type="text" name="" id="tag-input" class="tag-input pointer"  onkeydown="createChip(event)" placeholder="start typing here..."> -->
+                </div>
+        
+            </div>
             <br/>
             <div >
                 <input type="submit" style="width: 20%;" value="Create Article">
             </div>
         </form>
+
+        <!-- <input type="button" value="ck4" class="button" onclick="ck4()"> -->
     </div>

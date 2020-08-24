@@ -1,12 +1,41 @@
-    <div style="width: 90%;text-align: right;margin-top: 13px;">
+
+
+
+<div style="width: 90%;text-align: right;margin-top: 13px;">
+
+    <input type="button" value="getAllArticles" onclick="getAllArticles()" id="getAllArticlesBtn" class="button border">
+
+    <div style="position: relative;margin: 10px;display: inline;">
+        <input type="text" name="" id="tagInput" placeholder="search tags here..." class="tag-input">
+        <input type="button" value="search" id="btnTagSearchSubmit" class="button border green-hover" onclick="searchWithtagName()">
+    </div>
+
+    <!-- <div style="display: inline">
+  
+        <div class="dropdown">
+          <button onclick="myFunction()" class="dropbtn">Tags</button>
+          <div id="tagsdropdown" class="dropdown-content">
+            <input type="text" placeholder="Search.." id="tagInput" onkeyup="filterFunction()">
+            <div id="tagsSearchDiv">
+
+            </div>
+          </div>
+        </div>
+        
+        
+            </div> -->
+
         <label>Search Article</label>
         <input type="search" id="IPsearchAticle">
-        <input type="button" value="seach" id="searchArtSubmit" onclick="searchArticle()">
+        <input type="button" value="seach" id="searchArtSubmit" class="button border" onclick="searchArticle()">
     </div>
 
 
     <div class="articles-div" style="width: 80%;margin: 10px auto 0 auto;" onload="getAllArticles()">
-        <table id="articles-table" style="width: 100%;margin-bottom: 10px;">
+        <div id="tagInfo" style="padding: 10px;">
+
+        </div>
+        <table id="articles-table" style="width: 100%;margin-bottom: 10px;text-align: left;">
             <tbody>
                 
             </tbody>
